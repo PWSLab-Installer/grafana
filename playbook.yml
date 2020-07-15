@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  connection: local
+
+  vars:
+    grafana_security:
+        admin_user: pwslab_admin
+        admin_password: pwslab_admin
+
+  tasks:
+      
+    - name: Fetch Grafana Role
+      git:
+        repo: https://github.com/cloudalchemy/ansible-grafana.git
+        dest: /root/.ansible/roles/pwslab.grafana
+        version: master
+        force: yes
+
+    - name: Installing Grafana
+      include_role:
+        name: pwslab.grafana
+
+    - name: restart Grafana
+      command: systemctl restart grafana-server
